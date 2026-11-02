@@ -107,7 +107,7 @@ def authors():
         }
     ]
 
-app.route('/seed', methods=['GET'])
+@app.route('/seed', methods=['GET'])
 def seed_table_name():
     conn = DatabaseConnection()
     conn.connect()

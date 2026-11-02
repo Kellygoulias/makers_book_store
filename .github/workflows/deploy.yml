@@ -75,6 +75,7 @@ jobs:
             if [ "$(docker ps -q -f name=^book_store$)" ]; then
               docker stop $(docker ps -q -f name=^book_store$) || true
             fi
+            pwd
             docker rm book_store || true
             docker image prune -f || true
             docker run -d \

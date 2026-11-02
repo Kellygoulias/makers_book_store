@@ -1,5 +1,5 @@
 
-<nav>||<a href = "/"><button>Home</button></a> || <a href = "/hello"><button>Welcome</button></a> || <a href = "/authors"><button>authors</button></a> || <a href = "/books"><button>Books</button></a> || <a href = "/films"><button>Films</button></a>||</nav>
+<nav>||<a href = "/"><button>Home</button></a> || <a href = "/hello"><button>Welcome</button></a> || <a href = "/authors"><button>authors</button></a> || <a href = "/books"><button>Books</button></a> ||<a href = "/films"><button>Films</button></a>||<a href = "/users/new"><button>Sign Up</button></a>||</nav>
 
 <ul>
     <link rel="stylesheet" href="/static/styles.css">
@@ -9,7 +9,7 @@
 
 
 <main>
-    <h2>Here are some books:</h2>
+    <h2>Here are some films:</h2>
         <ul>
             {% for film in films %}
             <li>{{ film.title }} - {{film.release_year}}</li>

@@ -23,12 +23,12 @@ def seed_table_name():
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")
+        return render_template("index.html")
 
 @app.route('/team', methods=['GET'])
 def get_team():
-    team = ["Dorothy", "Rose", "Blanche", "Sophia"]
-    return render_template("team.html", team=team)
+        team = ["Dorothy", "Rose", "Blanche", "Sophia"]
+        return render_template("team.html", team=team)
 
 @app.route('/users/new', methods=['GET'])
 def get_signup():

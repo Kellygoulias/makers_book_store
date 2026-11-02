@@ -5,6 +5,7 @@ from user_repository import UserRepository
 from film_repository import FilmRepository
 from user import User
 from book import Book
+from film import Film
 
 # instantiate a Flask app object
 app = Flask(__name__)
@@ -22,8 +23,8 @@ def get_team():
     team = ["Dorothy", "Rose", "Blanche", "Sophia"]
     return render_template("team.html", team=team)
 
-@app.route('/users', methods=['GET'])
-def get_users():
+@app.route('/users/new', methods=['GET'])
+def get_signup():
     return render_template("signup_form.html")
 
 @app.route('/users', methods=['POST'])
@@ -44,11 +45,22 @@ def get_films():
     film_repository = FilmRepository(connection)
     films = film_repository.all()
     print(films)
-    films_json = []
-    for film in films:
-        item = {"title": film.title, "release_year": film.release_year}
-        films_json.append(item)
-    return films_json
+    return render_template("films.html", films=films)
+    # films_json = []
+    # for film in films:
+    #     item = {"title": film.title, "release_year": film.release_year}
+    #     films_json.append(item)
+    # return films_json
+
+@app.route("/films", methods= ["POST"])
+def create_film():
+    connection = DatabaseConnection()
+    connection.connect()
+    film_repository = FilmRepository(connection)
+    film = request.form
+    add_film = Film(title= film["title"], release_year= film["release_year"])
+    film_repository.create(add_film)
+    return redirect('/films')
 
 @app.route('/hello', methods=['GET'])
 def hello():

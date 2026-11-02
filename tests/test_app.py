@@ -1,9 +1,9 @@
 import sys
 import os
+from playwright.sync_api import Page, expect
 
 # this line is a bit of a hack which allows us to import app without changing anything else
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from app import app
 
 # a descriptive test name
@@ -70,21 +70,35 @@ def test_get_authors_returns_all_authors():
     }
 ]
 
-def test_get_all_films():
-    client = app.test_client()
-    response = client.get('/films')
-    assert response.json == [
-        {
-            "title" : "King Kong",
-            "release_year" : 1933
-        },
-        {
-            "title" : "The Godfather",
-            "release_year" : 1972
-        },
-        {
-            "title" : "Star Wars",
-            "release_year" : 1977
-        }
-    ]
 
+# def test_get_all_films():
+#     client = app.test_client()
+#     response = client.get('/films')
+#     assert response.json == [
+#         {
+#             "title" : "King Kong",
+#             "release_year" : 1933
+#         },
+#         {
+#             "title" : "The Godfather",
+#             "release_year" : 1972
+#         },
+#         {
+#             "title" : "Star Wars",
+#             "release_year" : 1977
+#         }
+#     ]
+
+def test_films_returns_a_200():
+    client = app.test_client()
+    response = client.get("/films")
+    assert response.status_code == 200
+
+def test_film_added_to_database(page: Page):
+    page.goto('http://127.0.0.1:5001/films')
+    page.get_by_placeholder("Title").fill("The Notebook")
+    page.get_by_placeholder("Release_year").fill('2004')
+    page.get_by_role("button", name="Submit").click()
+    
+    newest_film = page.locator("li").last.inner_text()
+    assert newest_film == 'The Notebook - 2004'

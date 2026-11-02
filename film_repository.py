@@ -12,6 +12,10 @@ class FilmRepository:
         films = []
         for row in rows:
             print(row)
-            item = Film(row["id"], row["title"], row["release_year"])
+            item = Film(row["title"], row["release_year"], row["id"])
             films.append(item)
         return films
+
+    def create(self, film):
+        self._connection.execute('INSERT INTO films (title, release_year) VALUES (%s, %s);', [film.title, film.release_year])
+        return None

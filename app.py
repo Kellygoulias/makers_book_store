@@ -107,12 +107,6 @@ def authors():
         }
     ]
 
-@app.route('/seed', methods=['GET'])
-def seed_table_name():
-    conn = DatabaseConnection()
-    conn.connect()
-    conn.seed('seeds/tables.sql')
-    return 'if you see this, database was probably seeded for USER AND FILM'
 
 # make the server run in response to `python app.py`
 # on port 5001 (you'll learn more about what this means later)

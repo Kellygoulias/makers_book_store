@@ -14,14 +14,7 @@ app = Flask(__name__)
 # Declares a route that listens for a GET request to the path /hello
 # and a method to execute when that request comes in
 
-app.route("/seed_tables", methods=['GET'])
-def seed_table_name():
-    conn = DatabaseConnection()
-    conn.connect()
-    conn.seed('./seeds/tables.sql')
-    return 'if you see this, database was probably seeded for USER AND FILM'
-
-@app.route("/", methods=["GET"])
+@app.route('/', methods=["GET"])
 def index():
         return render_template("index.html")
 
@@ -45,7 +38,7 @@ def create_user():
     user_repository.create(user)
     return redirect("/books")
 
-@app.route("/films", methods=["GET"])
+@app.route('/films', methods=["GET"])
 def get_films():
     connection = DatabaseConnection()
     connection.connect()
@@ -59,7 +52,7 @@ def get_films():
     #     films_json.append(item)
     # return films_json
 
-@app.route("/films", methods= ["POST"])
+@app.route('/films', methods= ["POST"])
 def create_film():
     connection = DatabaseConnection()
     connection.connect()
@@ -113,6 +106,13 @@ def authors():
             "dob": "1979-11-11"
         }
     ]
+
+app.route('/seed', methods=['GET'])
+def seed_table_name():
+    conn = DatabaseConnection()
+    conn.connect()
+    conn.seed('seeds/tables.sql')
+    return 'if you see this, database was probably seeded for USER AND FILM'
 
 # make the server run in response to `python app.py`
 # on port 5001 (you'll learn more about what this means later)

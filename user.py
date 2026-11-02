@@ -1,10 +1,11 @@
 class User:
     # We initialise with all of our attributes
     # Each column in the table should have an attribute here
-    def __init__(self, username, password, id = None):
+    def __init__(self, username, password, email, id = None):
         self.id = id
         self.username = username
         self.password = password
+        self.email = email
 
     # This tells Python how to compare two Books. 
     # Without this, Python only checks if they are the same object in memory. 
@@ -16,4 +17,4 @@ class User:
     # Instead of seeing a confusing code like <User object at 0x102...>, 
     # you'll see the actual ID, username, and password, which is much more useful to us humans
     def __repr__(self):
-        return f"User({self.id}, {self.username}, {self.password})"
+        return f"User({self.id}, {self.username}, {self.password}, {self.email})"

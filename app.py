@@ -14,6 +14,13 @@ app = Flask(__name__)
 # Declares a route that listens for a GET request to the path /hello
 # and a method to execute when that request comes in
 
+app.route("/seed_tables", methods=['GET'])
+def seed_table_name():
+    conn = DatabaseConnection()
+    conn.connect()
+    conn.seed('./seeds/tables.sql')
+    return 'if you see this, database was probably seeded for USER AND FILM'
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -33,7 +40,7 @@ def create_user():
     connection = DatabaseConnection()
     connection.connect()
     user_repository = UserRepository(connection)
-    user = User(username= user_details["username"], password =user_details["password"])
+    user = User(username= user_details["username"], password =user_details["password"], email =user_details['email'])
     print(user)
     user_repository.create(user)
     return redirect("/books")

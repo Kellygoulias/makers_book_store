@@ -16,7 +16,8 @@ def test_create_user_is_saved_to_database():
     # send the request
     response = client.post('/users', data={
         'username': 'testuser',
-        'password': 'password123'
+        'password': 'password123',
+        'email' : 'email@email.com'
     })
 
     # assert that the redirect happened
@@ -28,3 +29,4 @@ def test_create_user_is_saved_to_database():
     # assert that the user was created
     assert len(result) == 1
     assert result[0]['username'] == 'testuser'
+    assert result[0]['email'] == 'email@email.com'

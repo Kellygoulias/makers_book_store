@@ -12,12 +12,24 @@ class UserRepository:
     #     return [ User(row["username"], row["password"], row["id"])
     #         for row in rows]
 
-    # # Find a single user by their id
-    # def find(self, artist_id):
-    #     rows = self._connection.execute(
-    #         'SELECT * from artists WHERE id = %s', [artist_id])
-    #     row = rows[0]
-    #     return Artist(row["id"], row["name"], row["genre"])
+    # Find a single user by their id
+    def authenticate(self, user):
+        rows = self._connection.execute(
+            'SELECT * from users WHERE username = %s AND password = %s AND email = %s', [user.username, user.password, user.email])
+        row = rows[0]
+        return User(row["username"], row["password"], row["email"])
+
+    def find_by_username(self, username):
+        user_details = self._connection.execute(
+        'SELECT * FROM users WHERE username = %s', [username]
+        )[0]
+
+        return User(
+        user_details["username"],
+        user_details["password"],
+        user_details["email"],
+        user_details["id"]
+    )
 
     # Create a new user
     # Do you want to get its id back? Look into RETURNING id;

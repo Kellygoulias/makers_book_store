@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from database_connection import DatabaseConnection
 from book_repository import BookRepository
 from user_repository import UserRepository
@@ -9,6 +9,7 @@ from film import Film
 
 # instantiate a Flask app object
 app = Flask(__name__)
+app.secret_key = "some_really_secret_key"
 
 
 # Declares a route that listens for a GET request to the path /hello
@@ -27,6 +28,28 @@ def get_team():
 def get_signup():
     return render_template("signup_form.html")
 
+@app.route('/sessions', methods=['POST'])
+def create_session():
+    user_details = request.form
+    connection = DatabaseConnection()
+    connection.connect()
+    user_repository = UserRepository(connection)
+    user = User(username= user_details["username"], password =user_details["password"], email =user_details['email'])
+
+    username = request.form["username"]
+    password = request.form["password"]
+
+    user = user_repository.find_by_username(username)
+    
+    if user and user.password == password:
+        print(f"youre in {user.username}")
+        session["user_id"] = user.id
+        session["username"] = user.username
+        return redirect("/books")
+    else:
+        return redirect("/sessions/new")
+    
+
 @app.route('/users', methods=['POST'])
 def create_user():
     user_details = request.form
@@ -34,9 +57,12 @@ def create_user():
     connection.connect()
     user_repository = UserRepository(connection)
     user = User(username= user_details["username"], password =user_details["password"], email =user_details['email'])
-    print(user)
     user_repository.create(user)
     return redirect("/books")
+
+@app.route('/sessions/new', methods=['GET'])
+def get_login_form():
+    return render_template("login_form.html")
 
 @app.route('/films', methods=["GET"])
 def get_films():

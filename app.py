@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from database_connection import DatabaseConnection
+from authenicated import is_authenticated
+from login_required import login_required
 from book_repository import BookRepository
 from user_repository import UserRepository
 from film_repository import FilmRepository
@@ -42,7 +44,6 @@ def create_session():
     user = user_repository.find_by_username(username)
     
     if user and user.password == password:
-        print(f"youre in {user.username}")
         session["user_id"] = user.id
         session["username"] = user.username
         return redirect("/books")
@@ -79,6 +80,7 @@ def get_films():
     # return films_json
 
 @app.route('/films', methods= ["POST"])
+@login_required
 def create_film():
     connection = DatabaseConnection()
     connection.connect()
@@ -100,7 +102,9 @@ def books():
     books = book_repository.all()
     return render_template("books.html", books=books)
 
+
 @app.route('/books', methods=['POST'])
+@login_required
 def create_book():
     book_details = request.form
     connection = DatabaseConnection()

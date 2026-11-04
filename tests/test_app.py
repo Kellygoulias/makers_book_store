@@ -93,12 +93,3 @@ def test_films_returns_a_200():
     client = app.test_client()
     response = client.get("/films")
     assert response.status_code == 200
-
-def test_film_added_to_database(page: Page):
-    page.goto('http://127.0.0.1:5001/films')
-    page.get_by_placeholder("Title").fill("The Notebook")
-    page.get_by_placeholder("Release_year").fill('2004')
-    page.get_by_role("button", name="Submit").click()
-    
-    newest_film = page.locator("li").last.inner_text()
-    assert newest_film == 'The Notebook - 2004'

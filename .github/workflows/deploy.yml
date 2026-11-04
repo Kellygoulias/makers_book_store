@@ -2,27 +2,15 @@ name: Deploy to EC2
 
 on:
   workflow_run:
-      workflows: [Continuous Integration]
-      types:
-        - completed
+    workflows: [Continuous Integration]
+    types: [completed]
   # push:
   #   branches: [ main ]
-  
 
 jobs:
-  on-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - run: build-and-deploy
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - run: echo 'The triggering workflow failed'
-      
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment: prod
 
     steps:
@@ -99,3 +87,8 @@ jobs:
               --restart unless-stopped \
               -p 5001:5001 \
               book_store:latest
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'

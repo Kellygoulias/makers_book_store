@@ -10,6 +10,17 @@ on:
   
 
 jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: build-and-deploy
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'
+      
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: prod

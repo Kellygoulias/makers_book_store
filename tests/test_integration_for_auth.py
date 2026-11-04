@@ -50,7 +50,7 @@ def test_auth_playwright(page: Page):
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password) values ('test', '1234');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '1234', 'email@email.com');")
 
     page.goto("http://localhost:5001/sessions/new")
     page.get_by_placeholder("username").fill("test")

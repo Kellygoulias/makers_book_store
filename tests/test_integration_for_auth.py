@@ -22,7 +22,7 @@ def test_auth_integration():
         'email': 'email@email.com'
     })
 
-    assert response.status_code == 302
+    assert response.status_code == 304
     # this assertion might be new to you :)
     assert response.headers['Location'].endswith('/books')
 

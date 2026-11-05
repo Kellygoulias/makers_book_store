@@ -44,7 +44,7 @@ def test_new_book_inserted(page: Page):
     page.get_by_placeholder("Email").fill('email@email.com')
     page.get_by_role("button", name= "Submit").click()
 
-    page.goto("http://localhost:5001/books")
+    page.goto("http://localhost:5001/books/new")
     page.get_by_placeholder("Title").fill("The Chroicles of Geronimo (the cat)")
     page.get_by_placeholder("Author").fill("Geronimo")
     page.get_by_placeholder("Synopsis").fill("he eats tuna and kicks ass, and hes all out of tuna")

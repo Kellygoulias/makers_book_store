@@ -80,8 +80,6 @@ def test_auth_failed_playwright(page: Page):
 def test_auth_failed_playwright(page: Page):
 
     page.goto("http://localhost:5001/books")
-    page.get_by_placeholder("Title").fill("The Chroicles of Geronimo (the cat)")
-    page.get_by_placeholder("Author").fill("Geronimo")
-    page.get_by_role("button", name="Submit").click()
+    page.get_by_role("button", name="Add a new book").click()
 
     assert page.url == "http://localhost:5001/sessions/new"

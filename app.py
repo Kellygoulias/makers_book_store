@@ -102,6 +102,10 @@ def books():
     books = book_repository.all()
     return render_template("books.html", books=books)
 
+@app.route('/books/new', methods=['GET'])
+@login_required
+def get_create_book_form():
+    return render_template("add_book_form.html", books=books)
 
 @app.route('/books', methods=['POST'])
 @login_required

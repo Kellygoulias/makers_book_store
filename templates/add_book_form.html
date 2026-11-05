@@ -1,0 +1,31 @@
+
+
+<nav>||<a href = "/"><button>Home</button></a> || <a href = "/hello"><button>Welcome</button></a> || <a href = "/authors"><button>authors</button></a> || <a href = "/books"><button>Books</button></a> ||<a href = "/films"><button>Films</button></a>||<a href = "/users/new"><button>Sign Up</button></a>||</nav>
+<head>
+    <link rel="stylesheet" href="/static/styles.css">
+    <h1>Books</h1>
+</head>
+
+<main>
+    <div>
+    <h2>Please add your book:</h2>
+        <form method="POST" action="/books">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title"><br>
+
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" placeholder="Author"><br>
+
+            <label for="synopsis">Synopsis</label>
+            <input type="text" id="synopsis" name="synopsis" placeholder="Synopsis"><br>
+
+            <label for="rating">Rating</label>
+            <input type="number" min="0" max="10" id="rating" name="rating" placeholder="Rating"><br>
+
+            <label for="notes">Notes</label>
+            <input type="text" id="notes" name="notes" placeholder="Notes"><br>
+
+            <input type="submit" value="Submit"><input type="reset" value="Reset">
+        </form>
+    </div>
+</main>

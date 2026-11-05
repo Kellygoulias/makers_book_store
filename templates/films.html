@@ -9,19 +9,21 @@
 
 
 <main>
-    <h2>Here are some films to look at:</h2>
-        <ul>
-            {% for film in films %}
-            <li>{{ film.title }} - {{film.release_year}}</li>
-            {% endfor %}
-        </ul>
-        <form method="POST" action="/films">
-            <label for="title">Title of Film</label>
-            <input type="text" id="title" name="title" placeholder="Title" required><br>
+    <div>
+        <h2>Here are some films to look at:</h2>
+            <ul>
+                {% for film in films %}
+                <li>{{ film.title }} - {{film.release_year}}</li>
+                {% endfor %}
+            </ul>
+            <form method="POST" action="/films">
+                <label for="title">Title of Film</label>
+                <input type="text" id="title" name="title" placeholder="Title" required><br>
 
-            <label for="release_year">Release year</label>
-            <input type="text" id="release_year" name="release_year" placeholder="Release_year" required><br>
+                <label for="release_year">Release year</label>
+                <input type="text" id="release_year" name="release_year" placeholder="Release_year" required><br>
 
-            <input type="submit" value="Submit">
-        </form>
+                <input type="submit" value="Submit">
+            </form>
+    </div>
 </main>

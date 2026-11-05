@@ -110,10 +110,16 @@ def create_book():
     connection = DatabaseConnection()
     connection.connect()
     book_repository = BookRepository(connection)
-    book = Book(title= book_details["title"], author =book_details["author"])
-    print(book)
+    book = Book(title= book_details["title"], author =book_details["author"], synopsis =book_details["synopsis"], rating =book_details["rating"], notes =book_details["notes"])
     book_repository.create(book)
     return redirect("/books")
+
+@app.route('/tables', methods=['GET'])
+def seed_table():
+    connection = DatabaseConnection()
+    connection.connect()
+    connection.seed('./seeds/tables.sql')
+    return "edited"
 
 
 @app.route('/authors', methods=['GET'])

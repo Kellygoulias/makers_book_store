@@ -11,10 +11,10 @@ def test_book_list_contains_all_books(page: Page):
     books = page.locator('li')
 
     expected_books = [
-        'The Gruffalo by Julia Donaldson',
-        'Ada Twist, Scientist by Andrea Beaty',
-        'The Girl Who Drank the Moon by Kelly Barnhill',
-        'Dragons in a Bag by Zetta Elliott'
+        'The Gruffalo by Julia Donaldson, 5/10',
+        'Ada Twist, Scientist by Andrea Beaty, 5/10',
+        'The Girl Who Drank the Moon by Kelly Barnhill, 5/10',
+        'Dragons in a Bag by Zetta Elliott, 5/10'
     ]       
     # here's the neat part which saves you from iterating over the `li` elements
     actual_books = books.all_inner_texts()
@@ -26,10 +26,10 @@ def test_has_correct_books(page: Page):
 
     ul = page.locator("ul")
 
-    expect(ul).to_contain_text('The Gruffalo by Julia Donaldson')
-    expect(ul).to_contain_text('Ada Twist, Scientist by Andrea Beaty')
-    expect(ul).to_contain_text('The Girl Who Drank the Moon by Kelly Barnhill')
-    expect(ul).to_contain_text('Dragons in a Bag by Zetta Elliott')
+    expect(ul).to_contain_text('The Gruffalo by Julia Donaldson, 5/10')
+    expect(ul).to_contain_text('Ada Twist, Scientist by Andrea Beaty, 5/10')
+    expect(ul).to_contain_text('The Girl Who Drank the Moon by Kelly Barnhill, 5/10')
+    expect(ul).to_contain_text('Dragons in a Bag by Zetta Elliott, 5/10')
 
 def test_new_book_inserted(page: Page):
 
@@ -47,7 +47,10 @@ def test_new_book_inserted(page: Page):
     page.goto("http://localhost:5001/books")
     page.get_by_placeholder("Title").fill("The Chroicles of Geronimo (the cat)")
     page.get_by_placeholder("Author").fill("Geronimo")
+    page.get_by_placeholder("Synopsis").fill("he eats tuna and kicks ass, and hes all out of tuna")
+    page.get_by_placeholder("Rating").fill('10')
+    page.get_by_placeholder("Notes").fill("None")
     page.get_by_role("button", name="Submit").click()
     books = page.locator('li')
     new_book = books.all_inner_texts()[-1]
-    assert new_book == "The Chroicles of Geronimo (the cat) by Geronimo"
+    assert new_book == "The Chroicles of Geronimo (the cat) by Geronimo, 10/10"

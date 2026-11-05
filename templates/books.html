@@ -10,7 +10,7 @@
     <h2>Here are some books:</h2>
         <ul>
             {% for book in books %}
-                <li>{{ book.title }} by {{book.author}}</li>
+                <li>{{ book.title }} by {{book.author}}, {{book.rating}}/10</li>
             {% endfor %}
         </ul>
         <form method="POST" action="/books">
@@ -19,6 +19,15 @@
 
             <label for="author">Author</label>
             <input type="text" id="author" name="author" placeholder="Author"><br>
+
+            <label for="synopsis">Synopsis</label>
+            <input type="text" id="synopsis" name="synopsis" placeholder="Synopsis"><br>
+
+            <label for="rating">Rating</label>
+            <input type="text" id="rating" name="rating" placeholder="Rating"><br>
+
+            <label for="notes">Notes</label>
+            <input type="text" id="notes" name="notes" placeholder="Notes"><br>
 
             <input type="submit" value="Submit">
         </form>

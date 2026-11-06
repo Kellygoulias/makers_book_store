@@ -1,5 +1,6 @@
 from book import Book
 
+
 class BookRepository:
 
     # We initialise with a database connection
@@ -12,12 +13,12 @@ class BookRepository:
         return [ Book(row["title"], row["author"], row["synopsis"], row["rating"], row["notes"], row["id"])
             for row in rows]
 
-    # # Find a single artist by their id
-    # def find(self, artist_id):
-    #     rows = self._connection.execute(
-    #         'SELECT * from artists WHERE id = %s', [artist_id])
-    #     row = rows[0]
-    #     return Artist(row["id"], row["name"], row["genre"])
+
+    def find(self, id):
+        rows = self._connection.execute(
+            'SELECT * from books WHERE id = %s', [id])
+        row = rows[0]
+        return Book(row["title"], row["author"], row["synopsis"], row["rating"], row["notes"], row["id"])
 
     # Create a new artist
     # Do you want to get its id back? Look into RETURNING id;

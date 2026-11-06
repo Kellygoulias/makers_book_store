@@ -14,7 +14,7 @@ def test_auth_integration():
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password, email) values ('test', '1234', 'email@email.com');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'email@email.com');")
 
     response = client.post('/sessions', data={
         'username': 'test',
@@ -32,17 +32,17 @@ def test_auth_failed_integration():
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password, email) values ('test', '1234', 'email@email.com');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'email@email.com');")
 
     response = client.post('/sessions', data={
         'username': 'test',
-        'password': '123s4',
+        'password': '123sss4',
         'email': 'email@email.com'
     })
 
     assert response.status_code == 302
     # this assertion might be new to you :)
-    assert response.headers['Location'].endswith('/sessions/new')
+    assert response.headers['Location'].endswith("/sessions/new")
 
 
 def test_auth_playwright(page: Page):
@@ -50,7 +50,7 @@ def test_auth_playwright(page: Page):
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password, email) values ('test', '1234', 'email@email.com');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'email@email.com');")
 
     page.goto("http://localhost:5001/sessions/new")
     page.get_by_placeholder("username").fill("test")
@@ -67,7 +67,7 @@ def test_auth_failed_playwright(page: Page):
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password) values ('test', '1234');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'email@email.com');")
 
     page.goto("http://localhost:5001/sessions/new")
     page.get_by_placeholder("username").fill("test")
@@ -77,7 +77,7 @@ def test_auth_failed_playwright(page: Page):
 
     assert page.url == "http://localhost:5001/sessions/new"
 
-def test_auth_failed_playwright(page: Page):
+def test_auth_playwright(page: Page):
 
     page.goto("http://localhost:5001/books")
     page.get_by_role("button", name="Add a new book").click()

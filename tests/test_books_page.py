@@ -36,7 +36,7 @@ def test_new_book_inserted(page: Page):
     connection = DatabaseConnection()
     connection.connect()
     connection.execute("TRUNCATE TABLE users;")
-    connection.execute("INSERT INTO users (username, password, email) values ('test', '1234', 'email@email.com');")
+    connection.execute("INSERT INTO users (username, password, email) values ('test', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'email@email.com');")
     
     page.goto("http://localhost:5001/sessions/new")
     page.get_by_placeholder("Username").fill("test")

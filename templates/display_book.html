@@ -1,0 +1,24 @@
+
+
+<nav>||<a href = "/"><button>Home</button></a> || <a href = "/books"><button>Books</button></a> ||<a href = "/films"><button>Films</button></a>||<a href = "/sessions/new"><button>Log In</button></a> ||<a href = "/users/new"><button>Sign Up</button></a>||</nav>
+<head>
+    <link rel="stylesheet" href="/static/styles.css">
+    <h1>{{book.title}}</h1>
+</head>
+
+<main>
+    <div>
+        <h2>Title:</h2>        
+        {{ book.title }}
+        <h2>Author:</h2> 
+        {{book.author}}
+        <h2>Rating:</h2> 
+        {{book.rating}}/10
+        <h2>Synopsis:</h2> 
+        {{book.synopsis}}
+        <h2>Notes:</h2> 
+        {{book.notes}}
+        
+
+    </div>
+</main>

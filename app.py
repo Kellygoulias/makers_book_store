@@ -8,6 +8,10 @@ from film_repository import FilmRepository
 from user import User
 from book import Book
 from film import Film
+import hashlib
+
+
+
 
 # instantiate a Flask app object
 app = Flask(__name__)
@@ -16,6 +20,10 @@ app.secret_key = "some_really_secret_key"
 
 # Declares a route that listens for a GET request to the path /hello
 # and a method to execute when that request comes in
+
+def hash(password):
+    m = hashlib.sha256(password.encode("utf-8"))
+    return m.hexdigest()
 
 @app.route('/', methods=["GET"])
 def index():
@@ -36,18 +44,24 @@ def create_session():
     connection = DatabaseConnection()
     connection.connect()
     user_repository = UserRepository(connection)
-    user = User(username= user_details["username"], password =user_details["password"], email =user_details['email'])
+    user = User(
+        username= user_details["username"], 
+        password= user_details["password"],
+        email =user_details['email']
+        )
 
     username = request.form["username"]
-    password = request.form["password"]
+    password = hash(request.form["password"])
 
     user = user_repository.find_by_username(username)
     
     if user and user.password == password:
+        print(f"Inside authorisation. user.password = {user.password} password = {password} => redirect to books")
         session["user_id"] = user.id
         session["username"] = user.username
         return redirect("/books")
     else:
+        print(f"Inside failed authorisation. user.password = {user.password} password = {password} => redirect to sessions/new")
         return redirect("/sessions/new")
     
 
@@ -57,7 +71,11 @@ def create_user():
     connection = DatabaseConnection()
     connection.connect()
     user_repository = UserRepository(connection)
-    user = User(username= user_details["username"], password =user_details["password"], email =user_details['email'])
+    user = User(
+        username= user_details["username"],
+        password= hash(user_details["password"]),
+        email= user_details['email']
+        )
     user_repository.create(user)
     return redirect("/books")
 
@@ -90,9 +108,6 @@ def create_film():
     film_repository.create(add_film)
     return redirect('/films')
 
-@app.route('/hello', methods=['GET'])
-def hello():
-    return "Hello to you too"
 
 @app.route('/books', methods=['GET'])
 def books():
@@ -117,6 +132,14 @@ def create_book():
     book = Book(title= book_details["title"], author =book_details["author"], synopsis =book_details["synopsis"], rating =book_details["rating"], notes =book_details["notes"])
     book_repository.create(book)
     return redirect("/books")
+
+@app.route('/books/<id>', methods=['GET'])
+def show_book(id):
+    connection = DatabaseConnection()
+    connection.connect()
+    book_repository = BookRepository(connection)
+    book = book_repository.find(id)
+    return render_template("display_book.html", book=book)
 
 @app.route('/tables', methods=['GET'])
 def seed_table():
